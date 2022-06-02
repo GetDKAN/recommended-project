@@ -21,3 +21,5 @@ Note also that it's possible to run dktl commands locally without spinning up a 
 DKTL_MODE=HOST ./vendor/bin/dktl [your commmand]
 ```
 If you experiment with this repo, you will likely encounter stuff that breaks. Thank you and please let us know. :-)
+
+The version of dkan-tools which is a directory in this repo is the bespoke version that fixes some issues for `DKTL_MODE=HOST`, among other issues. We'll need to work on adding those changes to dkan-tools.
