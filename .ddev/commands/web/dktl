@@ -3,4 +3,4 @@
 ## Description: Run dktl
 ## Usage: dktl <command>
 ## Example: "ddev console about" or "ddev console debug:config"
-DKTL_DIRECTORY=/var/www/html/vendor/getdkan/dkan-tools DKTL_MODE=HOST /var/www/html/vendor/bin/dktl $@
+DKTL_PROJECT_DIRECTORY=/var/www/html DKTL_DIRECTORY=/var/www/html/vendor/getdkan/dkan-tools DKTL_MODE=HOST /var/www/html/vendor/bin/dktl $@

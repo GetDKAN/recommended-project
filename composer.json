@@ -56,7 +56,17 @@
         "enable-patching": true,
         "drupal-scaffold": {
             "locations": {
+                "project-root": ".",
                 "web-root": "docroot/"
+            },
+            "file-mapping": {
+                "[project-root]/src/default.services.yml": "docroot/core/assets/scaffold/files/default.services.yml",
+                "[project-root]/src/default.settings.php": "docroot/core/assets/scaffold/files/default.settings.php",
+                "[project-root]/src/libraries/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/modules/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/themes/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/schema/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/site/README.txt": "scaffold/scaffolded-README.txt"
             }
         },
         "installer-paths": {
