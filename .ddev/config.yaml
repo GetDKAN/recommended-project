@@ -205,3 +205,7 @@ nodejs_version: "16"
 # post-import-db:
 #   - exec: drush cr
 #   - exec: drush updb
+
+hooks:
+  post-start:
+    - exec: robo install
