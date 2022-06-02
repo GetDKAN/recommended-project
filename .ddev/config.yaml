@@ -206,6 +206,6 @@ nodejs_version: "16"
 #   - exec: drush cr
 #   - exec: drush updb
 
-hooks:
-  post-start:
-    - exec: robo install
+#hooks:
+ # post-start:
+  #  - exec: robo install
