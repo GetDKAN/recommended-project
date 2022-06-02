@@ -55,6 +55,7 @@
     "extra": {
         "enable-patching": true,
         "drupal-scaffold": {
+            "gitignore": false,
             "locations": {
                 "project-root": ".",
                 "web-root": "docroot/"
