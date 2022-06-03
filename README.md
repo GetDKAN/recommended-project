@@ -11,6 +11,10 @@ The suggested set of commands thus far are:
 git clone [this repository]
 composer install
 ddev start
+# After this, optionally for local dkan module dev:
+git clone git@github.com:GetDKAN/dkan.git
+ddev dktl init --local-dev
+# And back to site building...
 ddev dktl make
 ddev config
 # Change the name if you'd like, but the important thing here is that ddev
