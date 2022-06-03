@@ -42,7 +42,11 @@
     },
     "extra": {
         "enable-patching": true,
-        "patches": {},
+        "patches": {
+            "drupal/core": {
+                "3274931: Allow specifying cron queue item lease time": "https://www.drupal.org/files/issues/2022-05-20/3274931-5.diff"
+            }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "docroot/"
