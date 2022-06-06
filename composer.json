@@ -9,6 +9,10 @@
         "chat": "https://www.drupal.org/node/314178"
     },
     "repositories": {
+        "file-system-layout": {
+            "type": "path",
+            "url": "./symlinker-plugin"
+        },
         "dkan-tools": {
             "type": "path",
             "url": "./dkan-tools"
@@ -29,7 +33,8 @@
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^10.1",
-        "getdkan/dkan": "^2.0"
+        "getdkan/dkan": "^2.0",
+        "getdkan/symlinker-plugin": "@dev"
     },
     "require-dev": {
         "drupal/core-dev": "~9.3.0",
@@ -49,7 +54,8 @@
             "composer/installers": true,
             "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "oomphinc/composer-installers-extender": true
+            "oomphinc/composer-installers-extender": true,
+            "getdkan/symlinker-plugin": true
         }
     },
     "extra": {
@@ -62,13 +68,8 @@
             },
             "file-mapping": {
                 "[project-root]/dktl.yml": "scaffold/dktl.yml",
-                "[project-root]/src/libraries/README.txt": "scaffold/scaffolded-README.txt",
-                "[project-root]/src/modules/README.txt": "scaffold/scaffolded-README.txt",
-                "[project-root]/src/themes/README.txt": "scaffold/scaffolded-README.txt",
-                "[project-root]/src/schema/README.txt": "scaffold/scaffolded-README.txt",
                 "[project-root]/src/site/default.services.yml": "docroot/core/assets/scaffold/files/default.services.yml",
-                "[project-root]/src/site/default.settings.php": "docroot/core/assets/scaffold/files/default.settings.php",
-                "[project-root]/src/site/README.txt": "scaffold/scaffolded-README.txt"
+                "[project-root]/src/site/default.settings.php": "docroot/core/assets/scaffold/files/default.settings.php"
             }
         },
         "installer-paths": {
