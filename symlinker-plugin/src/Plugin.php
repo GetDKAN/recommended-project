@@ -82,12 +82,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    return [];
-    // Important note: We only instantiate our handler on "post" events.
     return [
-      ScriptEvents::POST_UPDATE_CMD => 'postCmd',
-      ScriptEvents::POST_INSTALL_CMD => 'postCmd',
-      PackageEvents::POST_PACKAGE_INSTALL => 'postPackage',
+      ScriptEvents::PRE_UPDATE_CMD => 'preCmd',
+      ScriptEvents::PRE_INSTALL_CMD => 'preCmd',
+      //      PackageEvents::POST_PACKAGE_INSTALL => 'postPackage',
       PluginEvents::COMMAND => 'onCommand',
     ];
   }
@@ -98,8 +96,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    * @param \Composer\Script\Event $event
    *   The Composer event.
    */
-  public function postCmd(Event $event) {
-    //    $this->handler()->scaffold();
+  public function preCmd(Event $event) {
+    $this->handler()->makesymlinks();
   }
 
   /**

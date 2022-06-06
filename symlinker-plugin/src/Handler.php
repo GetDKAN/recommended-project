@@ -3,17 +3,7 @@
 namespace Dkan\Composer\Plugin\Symlinker;
 
 use Composer\Composer;
-use Composer\EventDispatcher\EventDispatcher;
-use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
-use Composer\Package\PackageInterface;
-use Composer\Util\Filesystem;
-use Drupal\Composer\Plugin\Scaffold\Operations\OperationData;
-use Drupal\Composer\Plugin\Scaffold\Operations\OperationFactory;
-use Drupal\Composer\Plugin\Scaffold\Operations\ScaffoldFileCollection;
-
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
 
 /**
  * Core class of the plugin.
@@ -24,16 +14,6 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFilesystem;
  * @internal
  */
 class Handler {
-
-  /**
-   * Composer hook called before scaffolding begins.
-   */
-  //  const PRE_DRUPAL_SCAFFOLD_CMD = 'pre-drupal-scaffold-cmd';
-
-  /**
-   * Composer hook called after scaffolding completes.
-   */
-  //  const POST_DRUPAL_SCAFFOLD_CMD = 'post-drupal-scaffold-cmd';
 
   /**
    * The Composer service.
@@ -57,20 +37,6 @@ class Handler {
   protected $manageOptions;
 
   /**
-   * The manager that keeps track of which packages are allowed to scaffold.
-   *
-   * @var \Drupal\Composer\Plugin\Scaffold\AllowedPackages
-   */
-  protected $manageAllowedPackages;
-
-  /**
-   * The list of listeners that are notified after a package event.
-   *
-   * @var \Drupal\Composer\Plugin\Scaffold\PostPackageEventListenerInterface[]
-   */
-  protected $postPackageListeners = [];
-
-  /**
    * Handler constructor.
    *
    * @param \Composer\Composer $composer
@@ -91,7 +57,7 @@ class Handler {
       foreach ($mappings as $destination => $source) {
         $dest_path = $this->locationSubtitution($destination, $symlinker_options->locations());
         $src_path = $this->locationSubtitution($source, $symlinker_options->locations());
-        $symlink_makers[] = new SymlinkMaker($this->io, realpath($src_path), $dest_path);
+        $symlink_makers[] = new SymlinkMaker($this->io, $src_path, $dest_path);
       }
     }
     foreach ($symlink_makers as $maker) {
