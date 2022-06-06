@@ -72,6 +72,15 @@
                 "[project-root]/src/site/default.settings.php": "docroot/core/assets/scaffold/files/default.settings.php"
             }
         },
+        "symlinker-plugin": {
+            "file-mapping": {
+                "[web-root]/libraries": "[project-root]/src/libraries",
+                "[web-root]/modules/custom": "[project-root]/src/modules",
+                "[web-root]/sites/default": "[project-root]/src/site",
+                "[web-root]/schema": "[project-root]/src/schema",
+                "[web-root]/themes/custom": "[project-root]/src/themes"
+            }
+        },
         "installer-paths": {
             "docroot/core": [
                 "type:drupal-core"

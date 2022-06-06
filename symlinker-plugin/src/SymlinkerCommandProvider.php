@@ -2,15 +2,14 @@
 
 namespace Dkan\Composer\Plugin\Symlinker;
 
-use Composer\Plugin\Capability\CommandProvider as CommandProviderCapability;
-use Dkan\Composer\Plugin\Symlink\SymlinkerCommand;
+use Composer\Plugin\Capability\CommandProvider;
 
 /**
  * List of all commands provided by this package.
  *
  * @internal
  */
-class CommandProvider implements CommandProviderCapability {
+class SymlinkerCommandProvider implements CommandProvider {
 
   /**
    * {@inheritdoc}

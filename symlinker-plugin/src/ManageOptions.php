@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Composer\Plugin\Scaffold;
+namespace Dkan\Composer\Plugin\Symlinker;
 
 use Composer\Composer;
 use Composer\Package\PackageInterface;
@@ -37,7 +37,7 @@ class ManageOptions {
   /**
    * Gets the root-level scaffold options for this project.
    *
-   * @return \Drupal\Composer\Plugin\Scaffold\ScaffoldOptions
+   * @return \Dkan\Composer\Plugin\Symlinker\SymlinkerOptions
    *   The scaffold options object.
    */
   public function getOptions() {
@@ -50,11 +50,12 @@ class ManageOptions {
    * @param \Composer\Package\PackageInterface $package
    *   The package to fetch the scaffold options from.
    *
-   * @return \Drupal\Composer\Plugin\Scaffold\ScaffoldOptions
+   * @return \Dkan\Composer\Plugin\Symlinker\SymlinkerOptions
+
    *   The scaffold options object.
    */
   public function packageOptions(PackageInterface $package) {
-    return ScaffoldOptions::create($package->getExtra());
+    return SymlinkerOptions::create($package->getExtra());
   }
 
   /**

@@ -14,7 +14,6 @@ use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Drupal\Composer\Plugin\Scaffold\CommandProvider as ScaffoldCommandProvider;
 
 /**
  * Composer plugin for handling drupal scaffold.
@@ -76,7 +75,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    * {@inheritdoc}
    */
   public function getCapabilities() {
-    return [CommandProvider::class => ScaffoldCommandProvider::class];
+    return [CommandProvider::class => SymlinkerCommandProvider::class];
   }
 
   /**

@@ -24,9 +24,37 @@ class SymlinkerOptions {
    * ScaffoldOptions constructor.
    *
    * @param array $options
-   *   The scaffold options taken from the 'file-system-Symlink' section.
+   *   The options taken from the 'symlinker-plugin' section.
+   * @param array $scaffoldOptions
+   *   The scaffold options used to configure Drupal's scaffolding plugin.
    */
-  protected function __construct(array $options) {
+  protected function __construct(array $options, array $scaffoldOptions = []) {
+    // Some defaults.
+    $project_root = FALSE;
+    $web_root = FALSE;
+
+    // Grab from symlinker.
+    if ($value = $options['locations']['project-root'] ?? FALSE) {
+      $project_root = $value;
+    }
+    if ($value = $options['locations']['web-root'] ?? FALSE) {
+      $web_root = $value;
+    }
+
+    // Grab from scaffold.
+    if ($value = $scaffoldOptions['locations']['project-root'] ?? FALSE) {
+      if ($project_root !== FALSE && $project_root !== $value) {
+        throw new \Exception('symlinker plugin configuration locations:project-root can not override Drupal scaffold plugin.');
+      }
+      $project_root = $value;
+    }
+    if ($value = $scaffoldOptions['locations']['web-root'] ?? FALSE) {
+      if ($web_root !== FALSE && $web_root !== $value) {
+        throw new \Exception('symlinker plugin configuration locations:web-root can not override Drupal scaffold plugin.');
+      }
+      $web_root = $value;
+    }
+
     $this->options = $options + [
       "locations" => [],
       "file-mapping" => [],
@@ -34,35 +62,9 @@ class SymlinkerOptions {
 
     // Define any default locations.
     $this->options['locations'] += [
-      'project-root' => '.',
-      'web-root' => '.',
+      'project-root' => $project_root ?? '.',
+      'web-root' => $web_root ?? '.',
     ];
-  }
-
-  /**
-   * Determines if the provided 'extras' section has scaffold options.
-   *
-   * @param array $extras
-   *   The contents of the 'extras' section.
-   *
-   * @return bool
-   *   True if scaffold options have been declared
-   */
-  public static function hasOptions(array $extras) {
-    return array_key_exists('file-system-Symlink', $extras);
-  }
-
-  /**
-   * Determines if the provided 'extras' section has scaffold options.
-   *
-   * @param array $extras
-   *   The contents of the 'extras' section.
-   *
-   * @return bool
-   *   True if scaffold options have been declared
-   */
-  public static function hasScaffoldOptions(array $extras) {
-    return array_key_exists('drupal-scaffold', $extras);
   }
 
   /**
@@ -75,8 +77,10 @@ class SymlinkerOptions {
    *   The scaffold options object representing the provided scaffold options
    */
   public static function create(array $extras) {
-    $options = static::hasOptions($extras) ? $extras['file-system-Symlink'] : [];
-    return new self($options);
+    return new self(
+      $extras['symlinker-plugin'] ?? [],
+      $extras['drupal-scaffold'] ?? []
+    );
   }
 
   /**
