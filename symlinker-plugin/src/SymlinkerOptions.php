@@ -21,6 +21,22 @@ class SymlinkerOptions {
   protected $options = [];
 
   /**
+   * Creates a scaffold options object.
+   *
+   * @param array $extras
+   *   The contents of the 'extras' section.
+   *
+   * @return self
+   *   The scaffold options object representing the provided scaffold options
+   */
+  public static function create(array $extras) {
+    return new self(
+      $extras['symlinker-plugin'] ?? [],
+      $extras['drupal-scaffold'] ?? []
+    );
+  }
+
+  /**
    * ScaffoldOptions constructor.
    *
    * @param array $options
@@ -29,7 +45,7 @@ class SymlinkerOptions {
    *   The scaffold options used to configure Drupal's scaffolding plugin.
    */
   protected function __construct(array $options, array $scaffoldOptions = []) {
-    // Some defaults.
+    // Some defaults for locations.
     $project_root = FALSE;
     $web_root = FALSE;
 
@@ -56,6 +72,7 @@ class SymlinkerOptions {
     }
 
     $this->options = $options + [
+        "symlink-on-install-update" => true,
         "locations" => [],
         "file-mapping" => [],
       ];
@@ -67,20 +84,8 @@ class SymlinkerOptions {
     ];
   }
 
-  /**
-   * Creates a scaffold options object.
-   *
-   * @param array $extras
-   *   The contents of the 'extras' section.
-   *
-   * @return self
-   *   The scaffold options object representing the provided scaffold options
-   */
-  public static function create(array $extras) {
-    return new self(
-      $extras['symlinker-plugin'] ?? [],
-      $extras['drupal-scaffold'] ?? []
-    );
+  public function symlinkOnInstallUpdate() {
+    return $this->options['symlink-on-install-update'];
   }
 
   public function notSymlinkedMessage() {

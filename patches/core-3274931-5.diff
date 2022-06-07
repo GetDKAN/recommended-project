@@ -1,0 +1,159 @@
+diff --git a/core/lib/Drupal/Core/Annotation/QueueWorker.php b/core/lib/Drupal/Core/Annotation/QueueWorker.php
+index 354642a72c..9fcadf4b10 100644
+--- a/core/lib/Drupal/Core/Annotation/QueueWorker.php
++++ b/core/lib/Drupal/Core/Annotation/QueueWorker.php
+@@ -52,13 +52,15 @@ class QueueWorker extends Plugin {
+   public $title;
+ 
+   /**
+-   * An associative array containing an optional key.
++   * An associative array containing optional keys.
+    *
+    * This property is optional and it does not need to be declared.
+    *
+    * Available keys:
+    * - time (optional): How much time Drupal cron should spend on calling this
+    *   worker in seconds. Defaults to 15.
++   * - lease_time (optional): How long the lease is for a queue item when
++   *   called from cron in seconds. Defaults to 30.
+    *
+    * @var array
+    */
+diff --git a/core/lib/Drupal/Core/Cron.php b/core/lib/Drupal/Core/Cron.php
+index 74e5020642..b8d8b8e1a4 100644
+--- a/core/lib/Drupal/Core/Cron.php
++++ b/core/lib/Drupal/Core/Cron.php
+@@ -174,9 +174,9 @@ protected function processQueues() {
+         $this->queueFactory->get($queue_name)->createQueue();
+ 
+         $queue_worker = $this->queueManager->createInstance($queue_name);
+-        $end = $this->time->getCurrentTime() + $info['cron']['time'];
++        $end = $this->time->getCurrentTime() + $info['cron']['time'] ?? static::DEFAULT_QUEUE_CRON_TIME;
+         $queue = $this->queueFactory->get($queue_name);
+-        $lease_time = $info['cron']['time'];
++        $lease_time = $info['cron']['lease_time'] ?? static::DEFAULT_QUEUE_CRON_LEASE_TIME;
+         while ($this->time->getCurrentTime() < $end && ($item = $queue->claimItem($lease_time))) {
+           try {
+             $queue_worker->processItem($item->data);
+diff --git a/core/lib/Drupal/Core/CronInterface.php b/core/lib/Drupal/Core/CronInterface.php
+index 98c3f37c6b..22a93f91ab 100644
+--- a/core/lib/Drupal/Core/CronInterface.php
++++ b/core/lib/Drupal/Core/CronInterface.php
+@@ -9,6 +9,16 @@
+  */
+ interface CronInterface {
+ 
++  /**
++   * The default time cron should execute each queue in seconds.
++   */
++  public const DEFAULT_QUEUE_CRON_TIME = 15;
++
++  /**
++   * The default lease time a queue item should get when called from cron.
++   */
++  public const DEFAULT_QUEUE_CRON_LEASE_TIME = 30;
++
+   /**
+    * Executes a cron run.
+    *
+diff --git a/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestDatabaseDelayException.php b/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestDatabaseDelayException.php
+index 93e4a1e2cb..b9f3dbfe25 100644
+--- a/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestDatabaseDelayException.php
++++ b/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestDatabaseDelayException.php
+@@ -11,7 +11,10 @@
+  * @QueueWorker(
+  *   id = "cron_queue_test_database_delay_exception",
+  *   title = @Translation("Database delay exception test"),
+- *   cron = {"time" = 1}
++ *   cron = {
++ *     "time" = 1,
++ *     "lease_time" = 2
++ *   }
+  * )
+  */
+ class CronQueueTestDatabaseDelayException extends QueueWorkerBase {
+diff --git a/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestLeaseTime.php b/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestLeaseTime.php
+index 2027bd69a4..389a452082 100644
+--- a/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestLeaseTime.php
++++ b/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestLeaseTime.php
+@@ -8,7 +8,10 @@
+  * @QueueWorker(
+  *   id = "cron_queue_test_lease_time",
+  *   title = @Translation("Lease time test"),
+- *   cron = {"time" = 100}
++ *   cron = {
++ *     "time" = 5,
++ *     "lease_time" = 10
++ *   }
+  * )
+  */
+ class CronQueueTestLeaseTime extends QueueWorkerBase {
+diff --git a/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestMemoryDelayException.php b/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestMemoryDelayException.php
+index 6548868608..d006e9c3ad 100644
+--- a/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestMemoryDelayException.php
++++ b/core/modules/system/tests/modules/cron_queue_test/src/Plugin/QueueWorker/CronQueueTestMemoryDelayException.php
+@@ -11,7 +11,10 @@
+  * @QueueWorker(
+  *   id = "cron_queue_test_memory_delay_exception",
+  *   title = @Translation("Memory delay exception test"),
+- *   cron = {"time" = 1}
++ *   cron = {
++ *     "time" = 1,
++ *     "lease_time" = 2
++ *   }
+  * )
+  */
+ class CronQueueTestMemoryDelayException extends QueueWorkerBase {
+@@ -21,8 +24,8 @@ class CronQueueTestMemoryDelayException extends QueueWorkerBase {
+    */
+   public function processItem($data) {
+     // Set the delay to something larger than the original lease.
+-    $cron_time = $this->pluginDefinition['cron']['time'];
+-    throw new DelayedRequeueException($cron_time + 100);
++    $lease_time = $this->pluginDefinition['cron']['lease_time'];
++    throw new DelayedRequeueException($lease_time + 100);
+   }
+ 
+ }
+diff --git a/core/modules/system/tests/src/Kernel/System/CronQueueTest.php b/core/modules/system/tests/src/Kernel/System/CronQueueTest.php
+index c424552e21..f6e0155bb3 100644
+--- a/core/modules/system/tests/src/Kernel/System/CronQueueTest.php
++++ b/core/modules/system/tests/src/Kernel/System/CronQueueTest.php
+@@ -90,8 +90,8 @@ public function testDelayException() {
+     // Get the queue worker plugin manager.
+     $manager = $this->container->get('plugin.manager.queue_worker');
+     $definitions = $manager->getDefinitions();
+-    $this->assertNotEmpty($database_lease_time = $definitions['cron_queue_test_database_delay_exception']['cron']['time']);
+-    $this->assertNotEmpty($memory_lease_time = $definitions['cron_queue_test_memory_delay_exception']['cron']['time']);
++    $this->assertNotEmpty($database_lease_time = $definitions['cron_queue_test_database_delay_exception']['cron']['lease_time']);
++    $this->assertNotEmpty($memory_lease_time = $definitions['cron_queue_test_memory_delay_exception']['cron']['lease_time']);
+ 
+     // Create the necessary test data and run cron.
+     $database->createItem('test');
+@@ -127,12 +127,10 @@ public function testDelayException() {
+   public function testLeaseTime() {
+     $queue = $this->container->get('queue')->get('cron_queue_test_lease_time');
+     $queue->createItem([$this->randomMachineName() => $this->randomMachineName()]);
+-    // Run initial queue job and ensure lease time variable is initialized.
+     $this->cron->run();
+     static::assertEquals(1, \Drupal::state()->get('cron_queue_test_lease_time'));
+-    // Ensure the same queue job is not picked up due to the extended lease.
+     $this->cron->run();
+-    static::assertEquals(1, \Drupal::state()->get('cron_queue_test_lease_time'));
++    static::assertEquals(2, \Drupal::state()->get('cron_queue_test_lease_time'));
+ 
+     // Set the expiration time to 3 seconds ago, so the lease should
+     // automatically expire.
+@@ -141,12 +139,8 @@ public function testLeaseTime() {
+       ->fields(['expire' => $this->currentTime - 3])
+       ->execute();
+ 
+-    // The queue job should now be picked back up since it's lease has expired,
+-    // and the state variable should be consequently incremented.
+     $this->cron->run();
+     static::assertEquals(2, \Drupal::state()->get('cron_queue_test_lease_time'));
+-    // Ensure the same queue job is not picked up again due to the extended
+-    // lease.
+     $this->cron->run();
+     static::assertEquals(2, \Drupal::state()->get('cron_queue_test_lease_time'));
+   }

@@ -15,6 +15,8 @@ use Composer\IO\IOInterface;
  */
 class Handler {
 
+  protected $calledByCommand = FALSE;
+
   /**
    * The Composer service.
    *
@@ -44,27 +46,31 @@ class Handler {
    * @param \Composer\IO\IOInterface $io
    *   The Composer I/O service.
    */
-  public function __construct(Composer $composer, IOInterface $io) {
+  public function __construct(Composer $composer, IOInterface $io, $called_by_command = FALSE) {
     $this->composer = $composer;
     $this->io = $io;
     $this->manageOptions = new ManageOptions($composer);
+    $this->calledByCommand = $called_by_command;
   }
 
   public function makesymlinks() {
     $symlink_makers = [];
     $symlinker_options = $this->manageOptions->getOptions();
-    if ($mappings = $symlinker_options->fileMapping()) {
-      foreach ($mappings as $destination => $source) {
-        $dest_path = $this->locationSubtitution($destination, $symlinker_options->locations());
-        $src_path = $this->locationSubtitution($source, $symlinker_options->locations());
-        $maker = new SymlinkMaker($this->io, $src_path, $dest_path);
-        if ($maker->valid()) {
-          $symlink_makers[] = $maker;
+    // Don't do anything if config says not to.
+    if ($symlinker_options->symlinkOnInstallUpdate() || $this->calledByCommand) {
+      if ($mappings = $symlinker_options->fileMapping()) {
+        foreach ($mappings as $destination => $source) {
+          $dest_path = $this->locationSubtitution($destination, $symlinker_options->locations());
+          $src_path = $this->locationSubtitution($source, $symlinker_options->locations());
+          $maker = new SymlinkMaker($this->io, $src_path, $dest_path);
+          if ($maker->valid()) {
+            $symlink_makers[] = $maker;
+          }
         }
       }
-    }
-    foreach ($symlink_makers as $maker) {
-      $maker->execute();
+      foreach ($symlink_makers as $maker) {
+        $maker->execute();
+      }
     }
   }
 

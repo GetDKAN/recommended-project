@@ -78,12 +78,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    */
   public static function getSubscribedEvents() {
     // @todo: Check whether the symlinking happened on status.
-    // @todo: Ensure the user knows whether symlinking happened.
     return [
-      ScriptEvents::PRE_UPDATE_CMD => 'preCmd',
-      ScriptEvents::PRE_INSTALL_CMD => 'preCmd',
-      ScriptEvents::POST_INSTALL_CMD => 'postCmd',
-      ScriptEvents::POST_UPDATE_CMD => 'postCmd',
+      ScriptEvents::PRE_UPDATE_CMD => 'prePostCmd',
+      ScriptEvents::PRE_INSTALL_CMD => 'prePostCmd',
+      ScriptEvents::POST_INSTALL_CMD => 'prePostCmd',
+      ScriptEvents::POST_UPDATE_CMD => 'prePostCmd',
     ];
   }
 
@@ -93,11 +92,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    * @param \Composer\Script\Event $event
    *   The Composer event.
    */
-  public function preCmd(Event $event) {
-    $this->handler()->makesymlinks();
-  }
-
-  public function postCmd(Event $event){
+  public function prePostCmd(Event $event) {
     $this->handler()->makesymlinks();
   }
 

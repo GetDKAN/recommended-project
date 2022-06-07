@@ -9,13 +9,9 @@
         "chat": "https://www.drupal.org/node/314178"
     },
     "repositories": {
-        "file-system-layout": {
+        "symlinker-plugin": {
             "type": "path",
             "url": "./symlinker-plugin"
-        },
-        "dkan-tools": {
-            "type": "path",
-            "url": "./dkan-tools"
         },
         "drupal": {
             "type": "composer",
@@ -32,14 +28,15 @@
         "drupal/core-composer-scaffold": "~9.3.0",
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
-        "drush/drush": "^10.1",
+        "drush/drush": "^11.0",
         "getdkan/dkan": "^2.0",
+        "getdkan/dkan_js_frontend_bartik": "dev-main",
         "getdkan/symlinker-plugin": "@dev"
     },
     "require-dev": {
         "drupal/core-dev": "~9.3.0",
-        "getdkan/dkan-tools": "@dev",
-        "getdkan/mock-chain": "^1.3.0"
+        "getdkan/mock-chain": "^1.3.0",
+        "weitzman/drupal-test-traits": "^1.5"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -56,22 +53,36 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "oomphinc/composer-installers-extender": true,
             "getdkan/symlinker-plugin": true
+        },
+        "platform": {
+            "php": "7.4"
         }
     },
     "extra": {
         "enable-patching": true,
+        "patches": {
+            "drupal/core": {
+                "3274931: Allow specifying cron queue item lease time": "patches/core-3274931-5.diff"
+            }
+        },
         "drupal-scaffold": {
-            "gitignore": false,
             "locations": {
-                "project-root": ".",
+                "project-root": "./",
                 "web-root": "docroot/"
             },
             "file-mapping": {
-                "[project-root]/dktl.yml": "scaffold/dktl.yml"
+                "[project-root]/src/frontend/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/libraries/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/modules/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/site/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/schema/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/src/themes/README.txt": "scaffold/scaffolded-README.txt"
             }
         },
         "symlinker-plugin": {
+            "symlink-on-install-update": false,
             "file-mapping": {
+                "[web-root]/frontend": "[project-root]/src/frontend",
                 "[web-root]/libraries": "[project-root]/src/libraries",
                 "[web-root]/modules/custom": "[project-root]/src/modules",
                 "[web-root]/sites/default": "[project-root]/src/site",
