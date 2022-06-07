@@ -77,14 +77,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
+    // @todo: Check whether the symlinking happened on status.
+    // @todo: Ensure the user knows whether symlinking happened.
     return [
       ScriptEvents::PRE_UPDATE_CMD => 'preCmd',
       ScriptEvents::PRE_INSTALL_CMD => 'preCmd',
       ScriptEvents::POST_INSTALL_CMD => 'postCmd',
-      ScriptEvents::POST_STATUS_CMD => 'postCmd',
       ScriptEvents::POST_UPDATE_CMD => 'postCmd',
-      //      PackageEvents::POST_PACKAGE_INSTALL => 'postPackage',
-      PluginEvents::COMMAND => 'onCommand',
     ];
   }
 
@@ -96,36 +95,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    */
   public function preCmd(Event $event) {
     $this->handler()->makesymlinks();
-    $this->hasPerformedSymlink = TRUE;
   }
 
   public function postCmd(Event $event){
-    $this->handler()->notifyUser($this->hasPerformedSymlink);
-  }
-
-  /**
-   * Post package event behavior.
-   *
-   * @param \Composer\Installer\PackageEvent $event
-   *   Composer package event sent on install/update/remove.
-   */
-  public function postPackage(PackageEvent $event) {
-    //    $this->handler()->onPostPackageEvent($event);
-  }
-
-  /**
-   * Pre command event callback.
-   *
-   * @param \Composer\Plugin\CommandEvent $event
-   *   The Composer command event.
-   */
-  public function onCommand(CommandEvent $event) {
-    if ($event->getCommandName() == 'require') {
-      if ($this->handler) {
-        throw new \Error('Core Scaffold Plugin handler instantiated too early. See https://www.drupal.org/project/drupal/issues/3104922');
-      }
-      $this->requireWasCalled = TRUE;
-    }
+    $this->handler()->makesymlinks();
   }
 
   /**

@@ -81,6 +81,15 @@ class Handler {
     return implode('/', $path_items);
   }
 
+  /**
+   * Tell the user whether all the symlinking occurred.
+   *
+   * @todo This needs more work.
+   *
+   * @param $performed_symlink
+   *
+   * @return void
+   */
   public function notifyUser($performed_symlink) {
     if ($performed_symlink) {
       return;
