@@ -84,7 +84,7 @@ class SymlinkerOptions {
   }
 
   public function notSymlinkedMessage() {
-    if ($message = $this->options['not-processed-message']) {
+    if ($message = $this->options['not-processed-message'] ?? FALSE) {
       return $message;
     }
     return [
