@@ -6,8 +6,8 @@ namespace Dkan\Composer\Plugin\Symlinker;
  * Per-project options from the 'extras' section of the composer.json file.
  *
  * Projects that describe scaffold files do so via their scaffold options. This
- * data is pulled from the 'file-system-Symlink' portion of the extras section of
- * the project data.
+ * data is pulled from the 'file-system-Symlink' portion of the extras section
+ * of the project data.
  *
  * @internal
  */
@@ -56,9 +56,9 @@ class SymlinkerOptions {
     }
 
     $this->options = $options + [
-      "locations" => [],
-      "file-mapping" => [],
-    ];
+        "locations" => [],
+        "file-mapping" => [],
+      ];
 
     // Define any default locations.
     $this->options['locations'] += [
@@ -81,6 +81,16 @@ class SymlinkerOptions {
       $extras['symlinker-plugin'] ?? [],
       $extras['drupal-scaffold'] ?? []
     );
+  }
+
+  public function notSymlinkedMessage() {
+    if ($message = $this->options['not-processed-message']) {
+      return $message;
+    }
+    return [
+      "The symlinker plugin never performed the symlinks.",
+      "Please run: composer makesymlinks",
+    ];
   }
 
   /**

@@ -57,7 +57,10 @@ class Handler {
       foreach ($mappings as $destination => $source) {
         $dest_path = $this->locationSubtitution($destination, $symlinker_options->locations());
         $src_path = $this->locationSubtitution($source, $symlinker_options->locations());
-        $symlink_makers[] = new SymlinkMaker($this->io, $src_path, $dest_path);
+        $maker = new SymlinkMaker($this->io, $src_path, $dest_path);
+        if ($maker->valid()) {
+          $symlink_makers[] = $maker;
+        }
       }
     }
     foreach ($symlink_makers as $maker) {
@@ -76,6 +79,14 @@ class Handler {
       array_unshift($path_items, '.');
     }
     return implode('/', $path_items);
+  }
+
+  public function notifyUser($performed_symlink) {
+    if ($performed_symlink) {
+      return;
+    }
+    $symlinker_options = $this->manageOptions->getOptions();
+    $this->io->alert(implode("\n", $symlinker_options->notSymlinkedMessage()));
   }
 
 }

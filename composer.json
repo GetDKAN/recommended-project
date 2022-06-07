@@ -67,9 +67,7 @@
                 "web-root": "docroot/"
             },
             "file-mapping": {
-                "[project-root]/dktl.yml": "scaffold/dktl.yml",
-                "[project-root]/src/site/default.services.yml": "docroot/core/assets/scaffold/files/default.services.yml",
-                "[project-root]/src/site/default.settings.php": "docroot/core/assets/scaffold/files/default.settings.php"
+                "[project-root]/dktl.yml": "scaffold/dktl.yml"
             }
         },
         "symlinker-plugin": {

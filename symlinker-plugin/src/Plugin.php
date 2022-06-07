@@ -43,12 +43,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    */
   protected $handler;
 
-  /**
-   * Record whether the 'require' command was called.
-   *
-   * @param bool
-   */
-  protected $requireWasCalled;
+  protected $hasPerformedSymlink;
 
   /**
    * {@inheritdoc}
@@ -56,7 +51,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
   public function activate(Composer $composer, IOInterface $io) {
     $this->composer = $composer;
     $this->io = $io;
-    $this->requireWasCalled = FALSE;
+    $this->hasPerformedSymlink = FALSE;
   }
 
   /**
@@ -85,6 +80,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
     return [
       ScriptEvents::PRE_UPDATE_CMD => 'preCmd',
       ScriptEvents::PRE_INSTALL_CMD => 'preCmd',
+      ScriptEvents::POST_INSTALL_CMD => 'postCmd',
+      ScriptEvents::POST_STATUS_CMD => 'postCmd',
+      ScriptEvents::POST_UPDATE_CMD => 'postCmd',
       //      PackageEvents::POST_PACKAGE_INSTALL => 'postPackage',
       PluginEvents::COMMAND => 'onCommand',
     ];
@@ -98,6 +96,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
    */
   public function preCmd(Event $event) {
     $this->handler()->makesymlinks();
+    $this->hasPerformedSymlink = TRUE;
+  }
+
+  public function postCmd(Event $event){
+    $this->handler()->notifyUser($this->hasPerformedSymlink);
   }
 
   /**
@@ -133,11 +136,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface, Capable {
   protected function handler() {
     if (!$this->handler) {
       $this->handler = new Handler($this->composer, $this->io);
-      // On instantiation of our handler, notify it if the 'require' command
-      // was executed.
-      if ($this->requireWasCalled) {
-        $this->handler->requireWasCalled();
-      }
     }
     return $this->handler;
   }
