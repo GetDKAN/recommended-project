@@ -45,10 +45,12 @@ class SymlinkMaker {
       // The destination exists and is different.
       if (is_dir($this->destination)) {
         $response = $this->io->ask('Path ' . $this->destination . ' exists and is a directory. Copy it into ' . $this->source . ' before linking? (Y/n)', 'Y');
-        $fs->mirror($this->destination, $this->source, NULL, [
-          'override' => FALSE,
-          'delete' => FALSE,
-        ]);
+        if (in_array(strtolower($response), ['y', 'yes'])) {
+          $fs->mirror($this->destination, $this->source, NULL, [
+            'override' => FALSE,
+            'delete' => FALSE,
+          ]);
+        }
         $fs->remove([$this->destination]);
       }
       else {

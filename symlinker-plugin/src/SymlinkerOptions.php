@@ -99,52 +99,6 @@ class SymlinkerOptions {
   }
 
   /**
-   * Creates a new scaffold options object with some values overridden.
-   *
-   * @param array $options
-   *   Override values.
-   *
-   * @return self
-   *   The scaffold options object representing the provided scaffold options
-   */
-  protected function override(array $options) {
-    return new self($options + $this->options);
-  }
-
-  /**
-   * Creates a new scaffold options object with an overridden 'symlink' value.
-   *
-   * @param bool $symlink
-   *   Whether symlinking should be enabled or not.
-   *
-   * @return self
-   *   The scaffold options object representing the provided scaffold options
-   */
-  public function overrideSymlink($symlink) {
-    return $this->override(['symlink' => $symlink]);
-  }
-
-  /**
-   * Determines whether any allowed packages were defined.
-   *
-   * @return bool
-   *   Whether there are allowed packages
-   */
-  public function hasAllowedPackages() {
-    return !empty($this->allowedPackages());
-  }
-
-  /**
-   * Gets allowed packages from these options.
-   *
-   * @return array
-   *   The list of allowed packages
-   */
-  public function allowedPackages() {
-    return $this->options['allowed-packages'];
-  }
-
-  /**
    * Gets the location mapping table, e.g. 'webroot' => './'.
    *
    * @return array
@@ -181,16 +135,6 @@ class SymlinkerOptions {
   }
 
   /**
-   * Determines if symlink mode is set.
-   *
-   * @return bool
-   *   Whether or not 'symlink' mode
-   */
-  public function symlink() {
-    return $this->options['symlink'];
-  }
-
-  /**
    * Determines if there are file mappings.
    *
    * @return bool
@@ -208,26 +152,6 @@ class SymlinkerOptions {
    */
   public function fileMapping() {
     return $this->options['file-mapping'];
-  }
-
-  /**
-   * Determines if there is defined a value for the 'gitignore' option.
-   *
-   * @return bool
-   *   Whether or not there is a 'gitignore' option setting
-   */
-  public function hasGitIgnore() {
-    return isset($this->options['gitignore']);
-  }
-
-  /**
-   * Gets the value of the 'gitignore' option.
-   *
-   * @return bool
-   *   The 'gitignore' option, or TRUE if undefined.
-   */
-  public function gitIgnore() {
-    return $this->hasGitIgnore() ? $this->options['gitignore'] : TRUE;
   }
 
 }

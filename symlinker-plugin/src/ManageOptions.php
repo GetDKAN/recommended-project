@@ -58,36 +58,4 @@ class ManageOptions {
     return SymlinkerOptions::create($package->getExtra());
   }
 
-  /**
-   * Creates an interpolator for the 'locations' element.
-   *
-   * The interpolator returned will replace a path string with the tokens
-   * defined in the 'locations' element.
-   *
-   * Note that only the root package may define locations.
-   *
-   * @return \Drupal\Composer\Plugin\Scaffold\Interpolator
-   *   Interpolator that will do replacements in a string using tokens in
-   *   'locations' element.
-   */
-  public function getLocationReplacements() {
-    return (new Interpolator())->setData($this->ensureLocations());
-  }
-
-  /**
-   * Ensures that all of the locations defined in the scaffold files exist.
-   *
-   * Create them on the filesystem if they do not.
-   */
-  protected function ensureLocations() {
-    $fs = new Filesystem();
-    $locations = $this->getOptions()->locations() + ['web_root' => './'];
-    $locations = array_map(function ($location) use ($fs) {
-      $fs->ensureDirectoryExists($location);
-      $location = realpath($location);
-      return $location;
-    }, $locations);
-    return $locations;
-  }
-
 }

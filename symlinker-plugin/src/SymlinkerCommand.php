@@ -9,9 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * The "dkan:makesymlinks" command class.
  *
- * Manually run the scaffold operation that normally happens after
- * 'composer install'.
- *
  * @internal
  */
 class SymlinkerCommand extends BaseCommand {
@@ -26,7 +23,7 @@ class SymlinkerCommand extends BaseCommand {
       ->setDescription('Symlink project directories into Drupal.')
       ->setHelp(
         <<<EOT
-Sets up symlink stuff.
+Sets up symlink stuff. @todo: Improve this description.
 EOT
             );
 
