@@ -34,7 +34,6 @@
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^11.0",
         "getdkan/dkan": "^2.0",
-        "getdkan/dkan-tools": "@dev",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
         "getdkan/symlinker-plugin": "@dev"
     },
