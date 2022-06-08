@@ -15,8 +15,12 @@ nfs_mount_enabled: false
 mutagen_enabled: false
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
 nodejs_version: "16"
+
+web_environment:
+  - COMPOSER_MEMORY_LIMIT=-1
+  - PHP_MEM_LIMIT=256M
+  - PHP_CLI_MEM_LIMIT=512M
 
 # Key features of ddev's config.yaml:
 
