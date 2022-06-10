@@ -9,21 +9,25 @@
         "chat": "https://www.drupal.org/node/314178"
     },
     "repositories": {
+        "dkan_pathrepo_symlinker-plugin": {
+            "type": "path",
+            "url": "./symlinker-plugin"
+        },
+        "dkan": {
+            "type": "path",
+            "url": "./dkan"
+        },
         "dkan-tools": {
             "type": "path",
             "url": "./dkan-tools"
         },
-        "symlinker-plugin": {
+        "localdev-plugin": {
             "type": "path",
-            "url": "./symlinker-plugin"
+            "url": "./pathrepo-plugin"
         },
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        "asset": {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
         }
     },
     "require": {
@@ -33,8 +37,9 @@
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^11.0",
-        "getdkan/dkan": "^2.0",
+        "getdkan/dkan": "@dev",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
+        "getdkan/pathrepo-plugin": "@dev",
         "getdkan/symlinker-plugin": "@dev"
     },
     "require-dev": {
@@ -56,19 +61,15 @@
             "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "oomphinc/composer-installers-extender": true,
-            "getdkan/symlinker-plugin": true
+            "getdkan/symlinker-plugin": true,
+            "getdkan/pathrepo-plugin": true
         },
         "platform": {
             "php": "7.4"
         }
     },
     "extra": {
-        "enable-patching": true,
-        "patches": {
-            "drupal/core": {
-                "3274931: Allow specifying cron queue item lease time": "patches/core-3274931-5.diff"
-            }
-        },
+        "enable-patching": false,
         "drupal-scaffold": {
             "locations": {
                 "project-root": "./",
