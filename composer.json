@@ -13,10 +13,6 @@
             "type": "path",
             "url": "./symlinker-plugin"
         },
-        "dkan": {
-            "type": "path",
-            "url": "./dkan"
-        },
         "dkan-tools": {
             "type": "path",
             "url": "./dkan-tools"
@@ -28,6 +24,10 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        "asset": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     },
     "require": {
@@ -37,13 +37,14 @@
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^11.0",
-        "getdkan/dkan": "@dev",
+        "getdkan/dkan": "~2",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
         "getdkan/pathrepo-plugin": "@dev",
         "getdkan/symlinker-plugin": "@dev"
     },
     "require-dev": {
         "drupal/core-dev": "~9.3.0",
+        "getdkan/dkan-tools": "9.x-dev",
         "getdkan/mock-chain": "^1.3.0",
         "weitzman/drupal-test-traits": "^1.5"
     },

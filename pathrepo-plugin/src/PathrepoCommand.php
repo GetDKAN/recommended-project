@@ -33,6 +33,13 @@ class PathrepoCommand extends BaseCommand
   protected $configSource;
 
   /**
+   * Represents the root composer.json file.
+   *
+   * @var JsonFile
+   */
+  protected $jsonFile;
+
+  /**
    * {@inheritdoc}
    */
   protected function configure()
@@ -58,6 +65,8 @@ EOT
    */
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
+    $this->jsonFile = new JsonFile(Factory::getComposerFile(), null, $this->getIO());
+
     $relative_local_path = $input->getArgument('relative_local_path');
     $repo_package = $input->getOption('package') ?? '';
     $unset = $input->getOption('unset') ?? FALSE;
@@ -78,17 +87,18 @@ EOT
     }
     $repo_name = static::$pluginPrefix . implode('.', $relative_local_path_pieces);
 
-    $json_file = new JsonFile(Factory::getComposerFile(), null, $this->getIO());
-    $config_source = new JsonConfigSource($json_file);
-    $package_info = $json_file->read();
+    $config_source = new JsonConfigSource($this->jsonFile);
+    $package_info = $this->jsonFile->read();
 
+    $existing_repos = $this->findExistingReposForPath($relative_local_path);
     if ($unset) {
+      // Remove all the repos with this path.
       $removed_repos = [];
-      $package_info = $json_file->read();
+      $package_info = $this->jsonFile->read();
       // Look for our path and remove, even duplicates.
       if ($repositories = $package_info['repositories'] ?? FALSE) {
         foreach ($repositories as $name => $info) {
-          if (($info['url'] ?? '') == $relative_local_path) {
+          if (in_array($name, $existing_repos)) {
             $config_source->removeRepository($name);
             $removed_repos[] = $name;
           }
@@ -100,8 +110,9 @@ EOT
         $output->writeln('Unable to find a repo to remove for path ' . $relative_local_path);
       }
     } else {
-      if ($repo = $package_info['repositories'][$repo_name] ?? FALSE) {
-        $output->writeln('Repository ' . $repo_name . ' already exists. Taking no further action.');
+      // Adding a repo, unless one already exists.
+      if ($existing_repos) {
+        $output->writeln('Repository ' . implode(', ', $existing_repos) . ' already exists. Taking no further action.');
         return 0;
       }
       // Add our repo.
@@ -110,7 +121,7 @@ EOT
     }
 
     if ($repo_package) {
-      $package_info = $json_file->read();
+      $package_info = $this->jsonFile->read();
       $changed = FALSE;
       if (key_exists($repo_package, $package_info['require'] ?? [])) {
         if ($package_info['require'][$repo_package] !== '@dev') {
@@ -131,11 +142,51 @@ EOT
         }
       }
       if ($changed) {
-        $json_file->write($package_info);
+        $this->jsonFile->write($package_info);
       }
     }
 
     return 0;
+  }
+
+  /**
+   * @param $pathrepo_path
+   * @return string[]
+   *   All the repository names which match the path.
+   *
+   * @throws \Seld\JsonLint\ParsingException
+   */
+  protected
+  function findExistingReposForPath($pathrepo_path)
+  {
+    $existing = [];
+
+    $real_pathrepo_path = realpath($pathrepo_path);
+    // Realpath() says FALSE if the path doesn't exist. In that case, set it
+    // to NULL so we can compare with the result from other realpath() calls.
+    if ($real_pathrepo_path === FALSE) {
+      $real_pathrepo_path = NULL;
+    }
+
+    $package_info = $this->jsonFile->read();
+    if ($repositories = $package_info['repositories'] ?? FALSE) {
+      foreach ($repositories as $name => $info) {
+        if (($info['type'] ?? '') == 'path') {
+          $repo_url = ($info['url'] ?? '');
+          // Literal path match?
+          if ($repo_url == $pathrepo_path) {
+            $existing[] = $name;
+          } else {
+            // Try realpath. Always use strict type compare.
+            if (realpath($repo_url) === $real_pathrepo_path) {
+              $existing[] = $name;
+            }
+          }
+        }
+      }
+    }
+
+    return $existing;
   }
 
 }
