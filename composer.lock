@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c35ac507045a8b0a2d1281b388ed11cb",
+    "content-hash": "18e1927665b9d03b3e424cff8a59f8d5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2732,11 +2732,17 @@
         },
         {
             "name": "getdkan/dkan",
-            "version": "2.x-dev",
+            "version": "2.13.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GetDKAN/dkan.git",
+                "reference": "5edbb33b9ee50a4ee7e935bcd5421d46d3744a98"
+            },
             "dist": {
-                "type": "path",
-                "url": "./dkan",
-                "reference": "9b953cf8ae84fc7d9eb54fd0c35147233373912b"
+                "type": "zip",
+                "url": "https://api.github.com/repos/GetDKAN/dkan/zipball/5edbb33b9ee50a4ee7e935bcd5421d46d3744a98",
+                "reference": "5edbb33b9ee50a4ee7e935bcd5421d46d3744a98",
+                "shasum": ""
             },
             "require": {
                 "cweagans/composer-patches": "^1.7",
@@ -2794,6 +2800,7 @@
                     "Social\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -2804,9 +2811,11 @@
                 }
             ],
             "description": "DKAN Open Data Catalog",
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/GetDKAN/dkan/issues",
+                "source": "https://github.com/GetDKAN/dkan/tree/2.13.10"
+            },
+            "time": "2022-05-27T15:19:18+00:00"
         },
         {
             "name": "getdkan/dkan_js_frontend_bartik",
@@ -12524,7 +12533,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "getdkan/dkan": 20,
         "getdkan/dkan_js_frontend_bartik": 20,
         "getdkan/pathrepo-plugin": 20,
         "getdkan/symlinker-plugin": 20,
