@@ -9,6 +9,10 @@
         "chat": "https://www.drupal.org/node/314178"
     },
     "repositories": {
+        "dkan_pathrepo_dkan": {
+            "type": "path",
+            "url": "./dkan"
+        },
         "dkan_pathrepo_symlinker-plugin": {
             "type": "path",
             "url": "./symlinker-plugin"
@@ -37,7 +41,7 @@
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^11.0",
-        "getdkan/dkan": "~2",
+        "getdkan/dkan": "@dev",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
         "getdkan/pathrepo-plugin": "@dev",
         "getdkan/symlinker-plugin": "@dev"
