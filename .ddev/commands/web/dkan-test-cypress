@@ -1,0 +1,9 @@
+#!/bin/bash
+
+## Description: Run Cypress tests for the DKAN module.
+## Usage: dkan-test-cypress
+
+cd docroot/modules/contrib/dkan || exit 1
+npm install
+npx cypress install
+CYPRESS_baseUrl=$DDEV_PRIMARY_URL npx cypress run --headless --browser=chromium
