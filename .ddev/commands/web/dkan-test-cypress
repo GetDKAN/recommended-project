@@ -6,4 +6,5 @@
 cd docroot/modules/contrib/dkan || exit 1
 npm install
 npx cypress install
+# todo: Figure out how to add users.
 CYPRESS_baseUrl=$DDEV_PRIMARY_URL npx cypress run --headless --browser=chromium
