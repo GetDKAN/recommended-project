@@ -1,0 +1,12 @@
+#!/bin/bash
+
+## Description: Build out a DKAN site suitable for dev or testing under CI.
+## Usage: dkan-make-dev-site
+
+# install a site.
+drush site:install standard --site-name "DKAN" -y
+# enable stuff
+drush en dkan config_update_ui -y
+# some config
+drush config-set system.performance css.preprocess 0 -y
+drush config-set system.performance js.preprocess 0 -y

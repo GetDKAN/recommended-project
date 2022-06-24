@@ -3,8 +3,15 @@
 ## Description: Run Cypress tests for the DKAN module.
 ## Usage: dkan-test-cypress
 
-cd docroot/modules/contrib/dkan || exit 1
+cd docroot/modules/contrib/dkan
+npm cache verify
 npm install
 npx cypress install
-# todo: Figure out how to add users.
-CYPRESS_baseUrl=$DDEV_PRIMARY_URL npx cypress run --headless --browser=chromium
+
+mkdir -p dkan/cypress/tmp && mkdir -p dkan/cypress/results
+
+DKTL_PROJECT_DIRECTORY=/var/www/html DKTL_DIRECTORY=/var/www/html/vendor/getdkan/dkan-tools DKTL_MODE=HOST /var/www/html/vendor/bin/dktl dkan:qa-users-create
+
+CYPRESS_baseUrl=$DDEV_PRIMARY_URL npx cypress run --headless --browser=chromium --reporter=junit --reporter-options "mochaFile=cypress/results/output.xml"
+
+DKTL_PROJECT_DIRECTORY=/var/www/html DKTL_DIRECTORY=/var/www/html/vendor/getdkan/dkan-tools DKTL_MODE=HOST /var/www/html/vendor/bin/dktl dkan:qa-users-delete
