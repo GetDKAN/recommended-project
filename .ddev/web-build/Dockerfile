@@ -5,7 +5,10 @@ ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
 RUN apt update
-RUN apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
+RUN apt-get install \
+    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb \
+    wget unzip \
+    -y
 
 # Download chromium manually, because the package name varies between machine.
 RUN apt-get update && apt-get install -y chromium || apt-get install -y chromium-browser

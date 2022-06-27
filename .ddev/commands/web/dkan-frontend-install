@@ -1,0 +1,42 @@
+#!/bin/bash
+
+## Description: Add the frontend for DKAN.
+## Usage: dkan-frontend-install
+
+FRONTEND_TMP='src/tmp'
+FRONTEND_DIR='src/frontend'
+FRONTEND_DOCROOT_DIR='docroot/frontend'
+FRONTEND_VCS_URL='https://github.com/GetDKAN/data-catalog-app/'
+FRONTEND_VCS_REF='cypress-update-8.7.0'
+FRONTEND_THEME='dkan_js_frontend_bartik'
+
+#composer require getdkan/$FRONTEND_THEME
+#drush theme:enable $FRONTEND_THEME
+#drush config-set system.theme default $FRONTEND_THEME -y
+
+# Add the frontend app to composer.json.
+
+
+
+
+# TODO: Repalce this with a Composer-based dependency.
+
+if [[ -L $FRONTEND_DOCROOT_DIR ]]; then
+  echo "ERROR: Symlink $FRONTEND_DOCROOT_DIR already exists."
+  exit 1
+fi
+
+if [ -d $FRONTEND_DIR ]; then
+  echo "ERROR: Frontend $FRONTEND_DIR already exists."
+  exit 1
+fi
+
+# TODO: Glean frontend ref info from dkan module.
+# cd docroot/modules/contrib/dkan
+# composer config extra | jq .
+
+mkdir -p $FRONTEND_TMP
+wget -O $FRONTEND_TMP/frontend-archive-$FRONTEND_VCS_REF.zip "$FRONTEND_VCS_URL"archive/$FRONTEND_VCS_REF.zip
+unzip $FRONTEND_TMP/frontend-archive-$FRONTEND_VCS_REF.zip -d $FRONTEND_TMP/
+
+#ln -s $PWD/$FRONTEND_DOCROOT_DIR $PWD/$FRONTEND_DIR

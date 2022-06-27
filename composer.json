@@ -3,12 +3,19 @@
     "description": "Project template for DKAN sites.",
     "type": "project",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/drupal",
+    "homepage": "https://github.com/GetDKAN/dkan",
     "support": {
-        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
-        "chat": "https://www.drupal.org/node/314178"
+        "docs": "https://demo.getdkan.org/modules/contrib/dkan/docs/index.html"
     },
     "repositories": {
+        "dkan_frontend_8b797dc2": {
+            "type": "vcs",
+            "url": "https://github.com/GetDKAN/data-catalog-app"
+        },
+        "dkan_pathrepo_dkan-frontend-plugin": {
+            "type": "path",
+            "url": "./dkan-frontend-plugin"
+        },
         "dkan_pathrepo_symlinker-plugin": {
             "type": "path",
             "url": "./symlinker-plugin"
@@ -37,7 +44,9 @@
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^10.1",
+        "getdkan/data-catalog-app": "dev-cypress-update-8.7.0",
         "getdkan/dkan": "^2.0",
+        "getdkan/dkan-frontend-plugin": "@dev",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
         "getdkan/pathrepo-plugin": "@dev",
         "getdkan/symlinker-plugin": "@dev"
@@ -64,7 +73,8 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "getdkan/pathrepo-plugin": true,
-            "getdkan/symlinker-plugin": true
+            "getdkan/symlinker-plugin": true,
+            "getdkan/dkan-frontend-plugin": true
         },
         "platform": {
             "php": "7.4"
@@ -98,6 +108,9 @@
             }
         },
         "installer-paths": {
+            "docroot/frontend": [
+                "getdkan/data-catalog-app"
+            ],
             "docroot/core": [
                 "type:drupal-core"
             ],
@@ -130,6 +143,7 @@
         },
         "installer-types": [
             "bower-asset",
+            "dkan-frontend-app",
             "npm-asset"
         ]
     }
