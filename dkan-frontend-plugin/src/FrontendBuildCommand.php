@@ -7,6 +7,7 @@ use Composer\Config;
 use Composer\Config\JsonConfigSource;
 use Composer\Factory;
 use Composer\Json\JsonFile;
+use Composer\Package\Package;
 use Composer\Package\Version\VersionParser;
 use Composer\Semver\Constraint\Constraint;
 use Composer\Semver\Constraint\MatchAllConstraint;
@@ -14,13 +15,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Process\Process;
 
 /**
- * The "dkan:pathrepo" command class.
+ * The "dkan:frontend:build" command class.
  *
  * @internal
  */
-class FrontendCommand extends BaseCommand
+class FrontendBuildCommand extends BaseCommand
 {
 
   protected static $defaultFrontendRepo = [
@@ -54,9 +57,9 @@ class FrontendCommand extends BaseCommand
   protected function configure()
   {
     $this
-      ->setName('dkan:frontend')
-      ->setAliases(['frontend'])
-      ->setDescription('Add frontend repo.')
+      ->setName('dkan:frontend:build')
+      ->setAliases(['frontend-build'])
+      ->setDescription('Build frontend repo.')
       ->setHelp(
         <<<EOT
 @todo: Improve this documentations.
@@ -69,6 +72,46 @@ EOT
    */
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
+    # Determine whether getdkan/data-catalog-app has been installed.
+    $local_repository = $this->getComposer()->getRepositoryManager()->getLocalRepository();
+    $frontend_package = $local_repository->findPackage('getdkan/data-catalog-app', new MatchAllConstraint());
+    if ($frontend_package === NULL) {
+      throw new \Exception('Package getdkan/data-catalog-app has not been installed. Use "composer dkan:frontend:install".');
+    }
+
+    # Determine whether npm is available on the system.
+    if (!static::externalCommandIsAvailable('npm')) {
+      throw new \Exception('NPM is required for this command to operate.');
+    }
+
+    # Find getdkan/data-catalog-app install path.
+    $frontend_install_path = realpath(
+      $this->getComposer()
+        ->getInstallationManager()
+        ->getInstaller($frontend_package->getType())
+        ->getInstallPath($frontend_package)
+    );
+
+    $output->writeln('Running yarn install in ' . $frontend_install_path);
+
+    # Run npm install inside package directory.
+    $process = new Process(['yarn', 'install'], $frontend_install_path, NULL, NULL, 3600.0);
+
+    $process->run(function ($type, $buffer) use ($output) {
+      $output->write($buffer, FALSE);
+    });
+/*
+    $output->writeln('Running npm run build in ' . $frontend_install_path);
+
+    # Run npm install inside package directory.
+    $process = new Process(['npm', 'run', 'build', '--force'], $frontend_install_path, NULL, NULL, 3600.0);
+
+    $process->run(function ($type, $buffer) use ($output) {
+      $output->write($buffer, FALSE);
+    });
+
+*/
+    return 0;
 
     # Glean whether getdkan/dkan is a dependency.
     $local_repository = $this->getComposer()->getRepositoryManager()->getLocalRepository();
@@ -95,8 +138,6 @@ EOT
       'type' => 'package',
       'package' => [
         'name' => $frontend_package,
-        'type' => 'dkan-frontend-app',
-        'only' => 'getdkan/data-catalog-app',
         'version' => 'dev-' . $dkan_frontend['ref'],
         'dist' => [
           'url' => $frontend_zip_url,
@@ -128,44 +169,10 @@ EOT
     return 0;
   }
 
-  /**
-   * @param $pathrepo_path
-   * @return string[]
-   *   All the repository names which match the path.
-   *
-   * @throws \Seld\JsonLint\ParsingException
-   */
-  protected
-  function findExistingReposForPath($pathrepo_path)
+  private static function externalCommandIsAvailable($command)
   {
-    $existing = [];
-
-    $real_pathrepo_path = realpath($pathrepo_path);
-    // Realpath() says FALSE if the path doesn't exist. In that case, set it
-    // to NULL so we can compare with the result from other realpath() calls.
-    if ($real_pathrepo_path === FALSE) {
-      $real_pathrepo_path = NULL;
-    }
-
-    $package_info = $this->jsonFile->read();
-    if ($repositories = $package_info['repositories'] ?? FALSE) {
-      foreach ($repositories as $name => $info) {
-        if (($info['type'] ?? '') == 'path') {
-          $repo_url = ($info['url'] ?? '');
-          // Literal path match?
-          if ($repo_url == $pathrepo_path) {
-            $existing[] = $name;
-          } else {
-            // Try realpath. Always use strict type compare.
-            if (realpath($repo_url) === $real_pathrepo_path) {
-              $existing[] = $name;
-            }
-          }
-        }
-      }
-    }
-
-    return $existing;
+    $finder = new ExecutableFinder();
+    return (bool)$finder->find($command);
   }
 
 }

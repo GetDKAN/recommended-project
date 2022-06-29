@@ -4,7 +4,8 @@
     "type": "composer-plugin",
     "require": {
         "php": ">=7.3.0",
-        "composer-plugin-api": "^1 || ^2"
+        "composer-plugin-api": "^1 || ^2",
+        "symfony/process": "^4.4"
     },
     "autoload": {
         "psr-4": {

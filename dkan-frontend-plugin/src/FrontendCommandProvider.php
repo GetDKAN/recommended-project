@@ -15,7 +15,10 @@ class FrontendCommandProvider implements CommandProvider {
    * {@inheritdoc}
    */
   public function getCommands() {
-    return [new FrontendCommand()];
+    return [
+      new FrontendCommand(),
+      new FrontendBuildCommand(),
+    ];
   }
 
 }

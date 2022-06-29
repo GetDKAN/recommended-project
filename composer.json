@@ -8,10 +8,6 @@
         "docs": "https://demo.getdkan.org/modules/contrib/dkan/docs/index.html"
     },
     "repositories": {
-        "dkan_frontend_8b797dc2": {
-            "type": "vcs",
-            "url": "https://github.com/GetDKAN/data-catalog-app"
-        },
         "dkan_pathrepo_dkan-frontend-plugin": {
             "type": "path",
             "url": "./dkan-frontend-plugin"
@@ -44,7 +40,6 @@
         "drupal/core-project-message": "~9.3.0",
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^10.1",
-        "getdkan/data-catalog-app": "dev-cypress-update-8.7.0",
         "getdkan/dkan": "^2.0",
         "getdkan/dkan-frontend-plugin": "@dev",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
@@ -88,7 +83,6 @@
                 "web-root": "docroot/"
             },
             "file-mapping": {
-                "[project-root]/src/frontend/README.txt": "scaffold/scaffolded-README.txt",
                 "[project-root]/src/libraries/README.txt": "scaffold/scaffolded-README.txt",
                 "[project-root]/src/modules/README.txt": "scaffold/scaffolded-README.txt",
                 "[project-root]/src/site/README.txt": "scaffold/scaffolded-README.txt",
@@ -99,7 +93,6 @@
         "symlinker-plugin": {
             "symlink-on-install-update": false,
             "file-mapping": {
-                "[web-root]/frontend": "[project-root]/src/frontend",
                 "[web-root]/libraries": "[project-root]/src/libraries",
                 "[web-root]/modules/custom": "[project-root]/src/modules",
                 "[web-root]/sites/default": "[project-root]/src/site",
@@ -108,11 +101,11 @@
             }
         },
         "installer-paths": {
-            "docroot/frontend": [
-                "getdkan/data-catalog-app"
-            ],
             "docroot/core": [
                 "type:drupal-core"
+            ],
+            "docroot/frontend": [
+                "type:dkan-frontend-app"
             ],
             "docroot/libraries/{$name}": [
                 "type:drupal-library",

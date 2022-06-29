@@ -7,19 +7,15 @@ FRONTEND_TMP='src/tmp'
 FRONTEND_DIR='src/frontend'
 FRONTEND_DOCROOT_DIR='docroot/frontend'
 FRONTEND_VCS_URL='https://github.com/GetDKAN/data-catalog-app/'
-FRONTEND_VCS_REF='cypress-update-8.7.0'
+#FRONTEND_VCS_REF='cypress-update-8.7.0'
+FRONTEND_VCS_REF='1.0.4'
 FRONTEND_THEME='dkan_js_frontend_bartik'
 
-#composer require getdkan/$FRONTEND_THEME
-#drush theme:enable $FRONTEND_THEME
-#drush config-set system.theme default $FRONTEND_THEME -y
+composer require getdkan/$FRONTEND_THEME
+drush theme:enable $FRONTEND_THEME
+drush config-set system.theme default $FRONTEND_THEME -y
 
-# Add the frontend app to composer.json.
-
-
-
-
-# TODO: Repalce this with a Composer-based dependency.
+# TODO: Replace this with a Composer-based dependency.
 
 if [[ -L $FRONTEND_DOCROOT_DIR ]]; then
   echo "ERROR: Symlink $FRONTEND_DOCROOT_DIR already exists."
@@ -36,7 +32,11 @@ fi
 # composer config extra | jq .
 
 mkdir -p $FRONTEND_TMP
-wget -O $FRONTEND_TMP/frontend-archive-$FRONTEND_VCS_REF.zip "$FRONTEND_VCS_URL"archive/$FRONTEND_VCS_REF.zip
-unzip $FRONTEND_TMP/frontend-archive-$FRONTEND_VCS_REF.zip -d $FRONTEND_TMP/
+wget -O $FRONTEND_TMP/data-catalog-app-$FRONTEND_VCS_REF.zip "$FRONTEND_VCS_URL"archive/$FRONTEND_VCS_REF.zip
+unzip $FRONTEND_TMP/data-catalog-app-$FRONTEND_VCS_REF.zip -d src/
+mv src/data-catalog-app-$FRONTEND_VCS_REF src/frontend
 
-#ln -s $PWD/$FRONTEND_DOCROOT_DIR $PWD/$FRONTEND_DIR
+ln -s $PWD/$FRONTEND_DIR $FRONTEND_DOCROOT_DIR
+
+cd $FRONTEND_DOCROOT_DIR || exit
+npm install
