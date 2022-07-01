@@ -8,12 +8,9 @@ FRONTEND_DIR='src/frontend'
 FRONTEND_DOCROOT_DIR='docroot/frontend'
 FRONTEND_VCS_URL='https://github.com/GetDKAN/data-catalog-app/'
 #FRONTEND_VCS_REF='cypress-update-8.7.0'
-FRONTEND_VCS_REF='1.0.4'
+#FRONTEND_VCS_REF='1.0.4'
+FRONTEND_VCS_REF='no-node-sass'
 FRONTEND_THEME='dkan_js_frontend_bartik'
-
-composer require getdkan/$FRONTEND_THEME
-drush theme:enable $FRONTEND_THEME
-drush config-set system.theme default $FRONTEND_THEME -y
 
 # TODO: Replace this with a Composer-based dependency.
 
@@ -26,6 +23,10 @@ if [ -d $FRONTEND_DIR ]; then
   echo "ERROR: Frontend $FRONTEND_DIR already exists."
   exit 1
 fi
+
+composer require getdkan/$FRONTEND_THEME
+drush theme:enable $FRONTEND_THEME
+drush config-set system.theme default $FRONTEND_THEME -y
 
 # TODO: Glean frontend ref info from dkan module.
 # cd docroot/modules/contrib/dkan
