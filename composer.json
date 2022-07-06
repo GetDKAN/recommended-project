@@ -87,7 +87,8 @@
                 "[project-root]/src/modules/README.txt": "scaffold/scaffolded-README.txt",
                 "[project-root]/src/site/README.txt": "scaffold/scaffolded-README.txt",
                 "[project-root]/src/schema/README.txt": "scaffold/scaffolded-README.txt",
-                "[project-root]/src/themes/README.txt": "scaffold/scaffolded-README.txt"
+                "[project-root]/src/themes/README.txt": "scaffold/scaffolded-README.txt",
+                "[project-root]/testUsers.json": "scaffold/testUsers.json"
             }
         },
         "symlinker-plugin": {
