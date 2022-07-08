@@ -3,15 +3,30 @@
 ## Description: Run Cypress tests for the DKAN module.
 ## Usage: dkan-test-cypress
 
-cd docroot/modules/contrib/dkan
-npm cache verify
-npm install
+PROJECT_DIR=$PWD
+DKAN_DIR=docroot/modules/contrib/dkan
+
+# Perform these lengthly tasks before adding fixture users.
+cd $DKAN_DIR || exit 1
+#npm cache verify
+#npm install
+#npx cypress install
+#mkdir -p dkan/cypress/tmp && mkdir -p dkan/cypress/results
+
+# Add fixture users.
+cd $PROJECT_DIR || exit 1
+./.ddev/commands/web/dkan-test-users
+
+# Run the tests.
+cd $DKAN_DIR || exit 1
+# Ensure Cypress is installed.
 npx cypress install
-
-mkdir -p dkan/cypress/tmp && mkdir -p dkan/cypress/results
-
-DKTL_PROJECT_DIRECTORY=/var/www/html DKTL_DIRECTORY=/var/www/html/vendor/getdkan/dkan-tools DKTL_MODE=HOST /var/www/html/vendor/bin/dktl dkan:qa-users-create
-
+# Do it to it.
 CYPRESS_baseUrl=$DDEV_PRIMARY_URL npx cypress run --headless --browser=chromium --reporter=junit --reporter-options "mochaFile=cypress/results/output.xml"
+TEST_RESULT=$?
 
-DKTL_PROJECT_DIRECTORY=/var/www/html DKTL_DIRECTORY=/var/www/html/vendor/getdkan/dkan-tools DKTL_MODE=HOST /var/www/html/vendor/bin/dktl dkan:qa-users-delete
+# Remove fixture users.
+cd $PROJECT_DIR || exit 1
+./.ddev/commands/web/dkan-test-users --remove
+
+exit $TEST_RESULT
