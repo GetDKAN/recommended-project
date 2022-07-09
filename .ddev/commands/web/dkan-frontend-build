@@ -10,6 +10,5 @@ FRONTEND_DOCROOT_DIR='docroot/frontend'
 #FRONTEND_VCS_REF='cypress-update-8.7.0'
 #FRONTEND_THEME='dkan_js_frontend_bartik'
 
-echo $PWD
 cd $FRONTEND_DOCROOT_DIR || exit
 npm run build --force

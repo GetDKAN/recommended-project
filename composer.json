@@ -8,10 +8,6 @@
         "docs": "https://demo.getdkan.org/modules/contrib/dkan/docs/index.html"
     },
     "repositories": {
-        "dkan_pathrepo_dkan-frontend-plugin": {
-            "type": "path",
-            "url": "./dkan-frontend-plugin"
-        },
         "dkan_pathrepo_symlinker-plugin": {
             "type": "path",
             "url": "./symlinker-plugin"
@@ -41,7 +37,6 @@
         "drupal/core-recommended": "~9.3.0",
         "drush/drush": "^10.1",
         "getdkan/dkan": "^2.0",
-        "getdkan/dkan-frontend-plugin": "@dev",
         "getdkan/dkan_js_frontend_bartik": "dev-main",
         "getdkan/pathrepo-plugin": "@dev",
         "getdkan/symlinker-plugin": "@dev"

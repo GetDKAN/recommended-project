@@ -9,8 +9,8 @@ xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
-  type: mariadb
-  version: "10.3"
+  type: mysql
+  version: "5.7"
 nfs_mount_enabled: false
 mutagen_enabled: false
 use_dns_when_possible: true
@@ -19,6 +19,7 @@ nodejs_version: "16"
 
 webimage_extra_packages:
   - chromium
+  - chromium-driver
   - g++
   - make
   - python2

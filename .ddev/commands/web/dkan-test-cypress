@@ -8,10 +8,10 @@ DKAN_DIR=docroot/modules/contrib/dkan
 
 # Perform these lengthly tasks before adding fixture users.
 cd $DKAN_DIR || exit 1
-#npm cache verify
-#npm install
-#npx cypress install
-#mkdir -p dkan/cypress/tmp && mkdir -p dkan/cypress/results
+npm cache verify
+npm install
+npx cypress install
+mkdir -p dkan/cypress/tmp && mkdir -p dkan/cypress/results
 
 # Add fixture users.
 cd $PROJECT_DIR || exit 1
@@ -22,7 +22,12 @@ cd $DKAN_DIR || exit 1
 # Ensure Cypress is installed.
 npx cypress install
 # Do it to it.
-CYPRESS_baseUrl=$DDEV_PRIMARY_URL npx cypress run --headless --browser=chromium --reporter=junit --reporter-options "mochaFile=cypress/results/output.xml"
+CYPRESS_baseUrl=$DDEV_PRIMARY_URL \
+  npx cypress run \
+  --headless \
+  --browser=chromium \
+  --reporter=junit \
+  --reporter-options "mochaFile=cypress/results/output.xml"
 TEST_RESULT=$?
 
 # Remove fixture users.

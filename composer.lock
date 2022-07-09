@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04966170306dfa9d3958f6f7fb5a1ac6",
+    "content-hash": "ea01b62b9572e4cb233e30c66505f955",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2838,39 +2838,6 @@
                 "source": "https://github.com/GetDKAN/dkan/tree/2.13.10"
             },
             "time": "2022-05-27T15:19:18+00:00"
-        },
-        {
-            "name": "getdkan/dkan-frontend-plugin",
-            "version": "9.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "./dkan-frontend-plugin",
-                "reference": "552ff6ee9a01141dd68bf8673b680ff5e40ee0ba"
-            },
-            "require": {
-                "composer-plugin-api": "^1 || ^2",
-                "php": ">=7.3.0",
-                "symfony/process": "^4.4"
-            },
-            "require-dev": {
-                "composer/composer": "^2.2@stable"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Dkan\\Composer\\Plugin\\Frontend\\Plugin",
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dkan\\Composer\\Plugin\\Frontend\\": "/src"
-                }
-            },
-            "description": "Deal with DKAN frontend app special cases.",
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "getdkan/dkan_js_frontend_bartik",
@@ -12521,7 +12488,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "getdkan/dkan-frontend-plugin": 20,
         "getdkan/dkan_js_frontend_bartik": 20,
         "getdkan/pathrepo-plugin": 20,
         "getdkan/symlinker-plugin": 20,
