@@ -12,8 +12,8 @@ RUN pip3 install yq
 # TODO All packages with Cypress tests should specify their own version of
 #   the framework, and should not expect a global binary.
 # TODO Remove this once all the packages have their own specification.
-# RUN npm install --location=global cypress@8.7.0 && \
-RUN npx cypress install
+RUN npm install --location=global cypress@8.7.0 && \
+  npx cypress install
 
 # TODO This method of adding Chromium supports Pa11y CI. We should investigate
 #   re-adding these lines, or figuring out how to do it 'the right way.'

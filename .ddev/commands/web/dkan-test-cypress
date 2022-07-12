@@ -11,6 +11,9 @@ cd $DKAN_DIR || exit 1
 npm cache verify
 npm install
 npx cypress install
+echo " ** Cypress info:"
+npx cypress verify
+npx cypress info
 mkdir -p dkan/cypress/tmp && mkdir -p dkan/cypress/results
 
 # Add fixture users.
