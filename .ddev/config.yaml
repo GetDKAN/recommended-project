@@ -18,7 +18,6 @@ composer_version: "2"
 nodejs_version: "16"
 
 webimage_extra_packages:
-  - build-essential
   - chromium
   - chromium-driver
   - g++
