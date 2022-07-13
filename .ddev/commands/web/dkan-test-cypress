@@ -24,6 +24,8 @@ cd $PROJECT_DIR || exit 1
 cd $DKAN_DIR || exit 1
 # Ensure Cypress is installed.
 npx cypress install
+npx cypress verify
+npx cypress info
 # Do it to it.
 CYPRESS_baseUrl=$DDEV_PRIMARY_URL \
   npx cypress run \
