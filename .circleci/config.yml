@@ -16,7 +16,9 @@ jobs:
       - checkout
       - run:
           name: "composer create-project"
-          command: "composer create-project"
+          command: |
+            composer create-project
+            php --version
 
 workflows:
   create-project-workflow:
