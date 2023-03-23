@@ -1,4 +1,8 @@
-.DS_Store
-.idea
 .ddev
+.DS_Store
+.editorconfig
+.gitattributes
+.idea
+docroot
+vendor
 composer.lock
