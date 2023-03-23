@@ -1,7 +1,6 @@
 .ddev
 .DS_Store
 .editorconfig
-.gitattributes
 .idea
 docroot
 vendor
