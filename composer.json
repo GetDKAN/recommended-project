@@ -1,6 +1,6 @@
 {
     "name": "getdkan/recommended-project",
-    "description": "Project template for Drupal 9 projects with a relocated document root",
+    "description": "Project template for DKAN-based Drupal sites.",
     "license": "GPL-2.0-or-later",
     "type": "project",
     "homepage": "https://getdkan.org/",
