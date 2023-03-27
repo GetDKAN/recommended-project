@@ -1,28 +1,17 @@
 {
     "name": "getdkan/recommended-project",
-    "description": "Project template for Drupal 9 projects with a relocated document root",
-    "type": "project",
+    "description": "Project template for DKAN-based Drupal sites.",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/drupal",
+    "type": "project",
+    "homepage": "https://getdkan.org/",
     "support": {
-        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
-        "chat": "https://www.drupal.org/node/314178"
-    },
-    "repositories": {
-        "drupal": {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        },
-        "asset": {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
+        "source": "https://github.com/getdkan",
+        "docs": "https://dkan.readthedocs.io/en/stable/introduction/get-dkan.html"
     },
     "require": {
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/core-composer-scaffold": "~9.4.0",
-        "drupal/core-project-message": "~9.4.0",
         "drupal/core-recommended": "~9.4.0",
         "drush/drush": "^10.1",
         "getdkan/dkan": "^2.0"
@@ -36,10 +25,19 @@
     "conflict": {
         "drupal/drupal": "*"
     },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
-        "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
@@ -47,38 +45,55 @@
             "oomphinc/composer-installers-extender": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true
-        }
+        },
+        "sort-packages": true
     },
     "extra": {
-        "enable-patching": true,
-        "patches": {
-            "drupal/core": {
-                "3274931: Allow specifying cron queue item lease time": "https://www.drupal.org/files/issues/2022-05-20/3274931-5.diff"
-            }
-        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "docroot/"
             }
         },
+        "enable-patching": true,
         "installer-paths": {
-            "docroot/core": ["type:drupal-core"],
+            "docroot/core": [
+                "type:drupal-core"
+            ],
             "docroot/libraries/{$name}": [
                 "type:drupal-library",
                 "type:bower-asset",
                 "type:npm-asset"
             ],
-            "docroot/modules/contrib/{$name}": ["type:drupal-module"],
-            "docroot/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "docroot/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
-            "docroot/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "docroot/profiles/custom/{$name}": ["type:drupal-custom-profile"],
-            "docroot/themes/custom/{$name}": ["type:drupal-custom-theme"]
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "docroot/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "docroot/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
         },
         "installer-types": [
             "bower-asset",
             "npm-asset"
-        ]
+        ],
+        "patches": {
+            "drupal/core": {
+                "3274931: Allow specifying cron queue item lease time": "https://www.drupal.org/files/issues/2022-05-20/3274931-5.diff"
+            }
+        }
     }
 }
