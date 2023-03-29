@@ -1,0 +1,7 @@
+.ddev
+.DS_Store
+.editorconfig
+.idea
+docroot
+vendor
+composer.lock
