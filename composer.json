@@ -6,17 +6,16 @@
     "homepage": "https://getdkan.org/",
     "support": {
         "source": "https://github.com/getdkan",
-        "docs": "https://dkan.readthedocs.io/en/stable/introduction/get-dkan.html"
+        "docs": "https://dkan.readthedocs.io/en/latest/index.html"
     },
     "require": {
-        "composer/installers": "^1.9",
+        "composer/installers": "^2.0",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3",
-        "drupal/config_update": "^2.0.0-alpha2",
         "drupal/core-composer-scaffold": "~10.0.0",
         "drupal/core-recommended": "~10.0.0",
         "drush/drush": "^11.5",
-        "getdkan/dkan": "^2.15.1"
+        "getdkan/dkan": "^2.16.4"
     },
     "require-dev": {
         "drupal/core-dev": "~10.0.0",
@@ -46,7 +45,6 @@
             "cweagans/composer-patches": true,
             "oomphinc/composer-installers-extender": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true,
             "phpstan/extension-installer": true
         },
         "sort-packages": true
