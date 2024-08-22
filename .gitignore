@@ -2,3 +2,5 @@
 .idea
 .ddev
 composer.lock
+docroot
+vendor
