@@ -12,14 +12,14 @@
         "composer/installers": "^2.0",
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.5",
-        "drupal/core-composer-scaffold": "~10.3.0",
-        "drupal/core-recommended": "~10.3.0",
+        "drupal/core-composer-scaffold": "^11.0",
+        "drupal/core-recommended": "^11.0",
         "drush/drush": "^12.4.3",
         "getdkan/dkan": "^2.19.6"
     },
     "require-dev": {
         "colinodell/psr-testlogger": "^1.2",
-        "drupal/core-dev": "~10.3.0",
+        "drupal/core-dev": "^11.0",
         "getdkan/mock-chain": "^1.3.7",
         "osteel/openapi-httpfoundation-testing": "<1.0"
     },
