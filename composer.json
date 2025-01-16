@@ -28,10 +28,6 @@
         "drupal/drupal": "*"
     },
     "repositories": {
-        "dkan": {
-            "type": "path",
-            "url": "dkan"
-        },
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
