@@ -14,10 +14,8 @@
         "drupal/admin_toolbar": "^3.5",
         "drupal/core-composer-scaffold": "^11.0.1",
         "drupal/core-recommended": "^11.0.1",
-        "drupal/select2": "^1.x-dev",
         "drush/drush": "^13",
         "getdkan/dkan": "dev-drupal-11-dan",
-        "mglaman/composer-drupal-lenient": "^1.0",
         "npm-asset/select2": "dev-develop"
     },
     "require-dev": {
@@ -101,14 +99,6 @@
         "installer-types": [
             "bower-asset",
             "npm-asset"
-        ],
-        "patches": {
-            "drupal/select2": {
-                "3454104: Drupal 11": "https://www.drupal.org/files/issues/2024-10-21/select2_d11_compatibility_3454104_10.patch"
-            }
-        },
-        "drupal-lenient": {
-            "allowed-list": ["drupal/select2"]
-        }
+        ]
     }
 }
