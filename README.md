@@ -9,7 +9,7 @@ Use Composer to create a project:
 
 You can also specify a Drupal core version:
 
-    composer create-project getdkan/recommended-project:10.1.x-dev
+    composer create-project getdkan/recommended-project:11.1.x-dev
 
 Need more information? Head over to the DKAN site: [https://getdkan.org/](https://getdkan.org/)
 
