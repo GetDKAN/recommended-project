@@ -21,7 +21,7 @@
     "require-dev": {
         "colinodell/psr-testlogger": "^1.2",
         "drupal/core-dev": "^11.0",
-        "getdkan/mock-chain": "dev-phpunit-10 as 1.3.7",
+        "getdkan/mock-chain": "^1.4.0",
         "osteel/openapi-httpfoundation-testing": "<1.0"
     },
     "conflict": {
