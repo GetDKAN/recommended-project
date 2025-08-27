@@ -16,7 +16,8 @@
         "drupal/core-recommended": "^11.0.1",
         "drush/drush": "^13",
         "getdkan/dkan": "^2.20.0",
-        "npm-asset/select2": "dev-develop"
+        "npm-asset/select2": "dev-develop",
+        "oomphinc/composer-installers-extender": "^2.0"
     },
     "require-dev": {
         "colinodell/psr-testlogger": "^1.2",
