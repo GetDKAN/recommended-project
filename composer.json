@@ -15,7 +15,7 @@
         "drupal/core-composer-scaffold": "^11.0.1",
         "drupal/core-recommended": "^11.0.1",
         "drush/drush": "^13",
-        "getdkan/dkan": "^2.20.0",
+        "getdkan/dkan": "^2.21.0",
         "npm-asset/select2": "dev-develop",
         "oomphinc/composer-installers-extender": "^2.0"
     },
